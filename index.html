@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IITC Smart Library</title>
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <img src="logo.png" alt="IITC logo" class="brand-logo">
+    <span class="brand-name">Smart Library</span>
+  </div>
+  <div id="userBox" class="user-box" hidden>
+    <span id="userLabel"></span>
+    <button class="btn ghost" id="logoutBtn" type="button">Log out</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- LOGIN -->
+  <section id="loginView" class="view">
+    <div class="login-wrap">
+      <div class="login-intro">
+        <h1>Find your next book.<br>Ask for the ones we don't have.</h1>
+        <p>Browse fiction, non-fiction and academic books, see what's on the shelf right now, and request new titles for the librarian to approve.</p>
+      </div>
+      <form id="loginForm" class="panel" autocomplete="off">
+        <div class="role-switch" role="tablist">
+          <button type="button" class="role-btn active" data-role="student" role="tab">Student</button>
+          <button type="button" class="role-btn" data-role="librarian" role="tab">Librarian</button>
+        </div>
+        <div id="studentFields">
+          <label>Full name
+            <input id="studentName" type="text" placeholder="e.g. Rahim Uddin">
+          </label>
+          <label>Student ID
+            <input id="studentId" type="text" placeholder="e.g. 2024-101">
+          </label>
+        </div>
+        <div id="librarianFields" hidden>
+          <label>Librarian password
+            <input id="libPassword" type="password" placeholder="Enter password">
+          </label>
+          <p class="hint">Demo password: <b>admin123</b></p>
+        </div>
+        <p id="loginError" class="error" role="alert" hidden></p>
+        <button class="btn primary wide" type="submit">Enter library</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- STUDENT -->
+  <section id="studentView" class="view" hidden>
+    <nav class="tabs" data-group="student">
+      <button class="tab active" data-tab="catalog" type="button">Catalog</button>
+      <button class="tab" data-tab="request" type="button">Request a book</button>
+      <button class="tab" data-tab="myrequests" type="button">My requests <span class="count" id="myReqCount"></span></button>
+    </nav>
+
+    <div id="tab-catalog" class="tab-panel">
+      <div class="filters">
+        <input id="searchInput" type="search" placeholder="Search title or author">
+        <select id="availFilter" aria-label="Availability">
+          <option value="all">All books</option>
+          <option value="available">On the shelf</option>
+          <option value="unavailable">Not available</option>
+        </select>
+      </div>
+      <div class="chips" id="catChips"></div>
+      <p id="catalogSummary" class="summary"></p>
+      <div id="bookGrid" class="grid"></div>
+    </div>
+
+    <div id="tab-request" class="tab-panel" hidden>
+      <form id="requestForm" class="panel narrow">
+        <h2>Request a book</h2>
+        <p class="hint">Can't find it in the catalog? Tell the librarian what to add.</p>
+        <label>Book title
+          <input id="reqTitle" type="text" required>
+        </label>
+        <label>Author
+          <input id="reqAuthor" type="text" required>
+        </label>
+        <label>Category
+          <select id="reqCategory"></select>
+        </label>
+        <label>Why do you need it? <span class="opt">(optional)</span>
+          <textarea id="reqReason" rows="3"></textarea>
+        </label>
+        <p id="reqError" class="error" role="alert" hidden></p>
+        <button class="btn primary" type="submit">Send request</button>
+      </form>
+    </div>
+
+    <div id="tab-myrequests" class="tab-panel" hidden>
+      <div id="myRequestList" class="list"></div>
+    </div>
+  </section>
+
+  <!-- LIBRARIAN -->
+  <section id="librarianView" class="view" hidden>
+    <div class="stats" id="stats"></div>
+    <nav class="tabs" data-group="librarian">
+      <button class="tab active" data-tab="requests" type="button">Requests <span class="count" id="pendingCount"></span></button>
+      <button class="tab" data-tab="books" type="button">Manage books</button>
+      <button class="tab" data-tab="addbook" type="button">Add a book</button>
+    </nav>
+
+    <div id="tab-requests" class="tab-panel">
+      <div id="requestList" class="list"></div>
+    </div>
+
+    <div id="tab-books" class="tab-panel" hidden>
+      <div class="filters">
+        <input id="libSearch" type="search" placeholder="Search books">
+      </div>
+      <div id="libBookList" class="list"></div>
+    </div>
+
+    <div id="tab-addbook" class="tab-panel" hidden>
+      <form id="addBookForm" class="panel narrow">
+        <h2>Add a book</h2>
+        <label>Title
+          <input id="addTitle" type="text" required>
+        </label>
+        <label>Author
+          <input id="addAuthor" type="text" required>
+        </label>
+        <label>Category
+          <select id="addCategory"></select>
+        </label>
+        <label>Copies on the shelf
+          <input id="addCopies" type="number" min="0" value="1">
+        </label>
+        <p id="addError" class="error" role="alert" hidden></p>
+        <button class="btn primary" type="submit">Add to catalog</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
